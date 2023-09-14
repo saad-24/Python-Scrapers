@@ -92,12 +92,13 @@ class Scraper(Intializer, Browser, CSV):
         link_lst.append(self.driver.current_url)
         time.sleep(5)
 
-
+        #link
         link = self.driver.current_url
         data.append(link)
 
         data.append('Jagah Online')
 
+        # Property ID
         try:
             property_id =  wait.until(EC.presence_of_element_located((By.XPATH, '//ul[@class="property-list list-unstyled"]/li[1]')))
             new_id = []
@@ -109,6 +110,7 @@ class Scraper(Intializer, Browser, CSV):
         except:
             data.append("Not Found")
 
+        # Property Type
         try:
             title = wait.until(EC.presence_of_element_located((By.XPATH, '//section//h1')))
             if 'House' in title:
@@ -120,14 +122,14 @@ class Scraper(Intializer, Browser, CSV):
         except:
             data.append("Not Found")
 
-
+        # Title
         try:
             title = wait.until(EC.presence_of_element_located((By.XPATH, '//section//h1')))
             data.append(title.text)
         except:
             data.append("Not Found")
 
-
+        # Property Status
         try:
             title = wait.until(EC.presence_of_element_located((By.XPATH, '//section//h1')))
             if 'Rent' in title.text:
@@ -137,18 +139,21 @@ class Scraper(Intializer, Browser, CSV):
         except:
             data.append("Not Found")
 
+        # Area
         try:
             area = wait.until(EC.presence_of_element_located((By.XPATH, '//ul[@class="property-list list-unstyled"]/li[2]')))
             data.append(area.text)
         except:
             data.append("Not Found")
 
+        # Address
         try:
             address = wait.until(EC.presence_of_element_located((By.XPATH, '//section//div[@class="row"]/div/span')))
             data.append(address.text)
         except:
             data.append("Not Found")
 
+        # Location
         try:
             location = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@class="property-address"]//div[@class="col-sm-6"][1]/ul/li[2]')))
             data.append(location.text)
@@ -157,12 +162,14 @@ class Scraper(Intializer, Browser, CSV):
 
         data.append('Not Found')
 
+        # Price
         try:
             price = wait.until(EC.presence_of_element_located((By.XPATH, '//span[@class="price font-xll text-primary"]')))
             data.append(price.text)
         except:
             data.append("Not Found")
 
+        # Bed and Bath
         try:
             amenties = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="amenity-group d-flex"]/div')))
             for amenty in amenties:
@@ -177,6 +184,7 @@ class Scraper(Intializer, Browser, CSV):
             data.append('Not Found')
             data.append('Not Found')
 
+        # Amenties
         amenties_lst = []
         try:
             amenties = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="amenity-group d-flex"]/div')))
@@ -187,7 +195,7 @@ class Scraper(Intializer, Browser, CSV):
             data.append("Not Found")
 
 
-
+        # Description
         try:
             description = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@class="property-description"]/div//div[2]/div')))
             data.append(description.text)
@@ -195,7 +203,7 @@ class Scraper(Intializer, Browser, CSV):
             data.append("Not Found")
 
         
-
+        # Images
         image_lst = []
         try:
             image_tab = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@class="frontImg-ctas-counters"]/a[1]')))
@@ -210,7 +218,7 @@ class Scraper(Intializer, Browser, CSV):
         
         print(data)
         super().populate_csv(filename, data)
-
+    
     def property_info_implementor(self, filename):
         df = pd.read_csv(filename)
         property_urls=df['link'].tolist()
@@ -221,7 +229,7 @@ class Scraper(Intializer, Browser, CSV):
                 self.get_property_info(filename)
 
                 
-
+# Implementor Class
 class Scraper_Implementor(Scraper):
     def implementor(self, url, filename):
         super().session()
@@ -232,7 +240,7 @@ class Scraper_Implementor(Scraper):
         super().property_info_implementor(filename)
 
 
-
+# Driver Code
 filename = 'jagah_online_property.csv'
 obj = Scraper_Implementor()
 obj.implementor('https://www.jagahonline.com/', filename)
