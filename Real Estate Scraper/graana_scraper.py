@@ -5,7 +5,7 @@ from csv import writer
 import os
 import pandas as pd
 
-
+# This class initializes all the lists that will be used across the code
 class ListInitializer:
     def __init__(self):
         self.property_link_lst = []
@@ -17,6 +17,7 @@ class Browser:
     def session(self):
         self.driver = webdriver.Chrome()
 
+# This class is responsible for making and populating the csv
 class CSV:
     def make_csv(self, filename):
         if os.path.exists(filename):
@@ -25,7 +26,6 @@ class CSV:
         else:
             print("File does not exist")
             with open(filename, "w", encoding="utf8" ,newline="") as csvfile:
-            # Create a CSV writer object
                 csv = writer(csvfile)
                 csv.writerow(['Link','Source', 'Property ID', 'Title', 'Type', 'Purpose', 'Area', 'Address', 'Location', 'Number', 'Price', 'Bed', 'Bath', 'Amenties', 'Description', 'Images'])
 
