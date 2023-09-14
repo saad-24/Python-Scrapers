@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 import os
 import pandas as pd
 
-
+# This class intializes all the lists that will be used across the code
 class Intializer:
     def __init__(self):
         self.property_link_lst = []        
@@ -17,6 +17,7 @@ class Browser:
     def session(self):
         self.driver = webdriver.Chrome()
 
+# This class is responsible for making and populating the csv
 class CSV:
     def make_csv(self, filename):
         if os.path.exists(filename):
@@ -34,6 +35,7 @@ class CSV:
             csv_writer.writerow(data)
             
 class Scraper(Intializer, Browser, CSV):
+    # This function will load all the relevant property through search filters
     def view_all_property(self):
         wait = WebDriverWait(self.driver, 10)
         time.sleep(5)
@@ -59,6 +61,7 @@ class Scraper(Intializer, Browser, CSV):
         search_btn.click()
         time.sleep(10)
 
+    # This function will collect all the property results on each page
     def get_property(self):
         wait = WebDriverWait(self.driver, 10)
         try:
@@ -81,7 +84,7 @@ class Scraper(Intializer, Browser, CSV):
             except:
                 break
 
-    
+    # This function will visit all the properties and collect all the property attributes
     def get_property_info(self, filename):
         wait = WebDriverWait(self.driver, 10)
         data = []
